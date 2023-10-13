@@ -1,0 +1,74 @@
+plugins {
+    id "net.serenity-bdd.serenity-gradle-plugin" version "3.9.8"
+    id 'java'
+    id 'idea'
+}
+wrapper {
+    gradleVersion = '8.0.2'
+}
+defaultTasks 'clean', 'test', 'aggregate'
+group 'org.example'
+version 'QAS0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://packages.atlassian.com/mvn/maven-external/"
+    }
+    flatDir
+            {
+                dirs 'lib'
+            }
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+ext {
+    serenityCoreVersion = '4.0.0-beta-2'
+    junitVersion = '5.8.2'
+    assertJVersion = '3.22.0'
+    logbackVersion = '1.2.10'
+}
+
+dependencies {
+    implementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-junit5:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-cucumber:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay-webdriver:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-ensure:2.3.5",
+            "org.junit.jupiter:junit-jupiter-api:${junitVersion}",
+            "org.assertj:assertj-core:${assertJVersion}",
+            "ch.qos.logback:logback-classic:${logbackVersion}",
+            //API TESTING
+            "net.serenity-bdd:serenity-rest-assured:${serenityCoreVersion}",
+            //JSON FILE PARSER
+            "com.jayway.jsonpath:json-path:2.4.0",
+            //ACCESSIBILITY TESTING
+            "com.deque.html.axe-core:selenium:4.7.0",
+            //JIRA-BUG REPORTING
+            "com.atlassian.jira:jira-rest-java-client-core:5.2.6",
+            "io.atlassian.fugue:fugue:5.0.0",
+            //DATA GENERATION LIBRARIES
+            'com.github.javafaker:javafaker:1.0.2',
+            "com.github.spullara.mustache.java:compiler:0.9.10",
+            //MAIL SERVER TESTING
+            "com.mailosaur:mailosaur-java:7.12.0",
+            //EXCEL FILLO
+            "com.codoid.products:fillo:1.22",
+            //FUZZYWUZZY FOR ADDRESS MATCHING
+            "me.xdrop:fuzzywuzzy:1.4.0"
+    //ALLWYN COMMON LIBRARIES
+    implementation fileTree(dir: 'lib', include: '*.jar')
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
