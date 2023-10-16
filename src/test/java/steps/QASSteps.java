@@ -59,7 +59,6 @@ public class QASSteps extends CommonSteps {
 
                 //SEARCH FOR RETAILER ADDRESS IN ROYAL MAIL
                 searchForRetailerAddress(retailerAddress);
-
             }
         } catch (Exception Ex) {
             Ex.printStackTrace();
@@ -68,7 +67,6 @@ public class QASSteps extends CommonSteps {
 
     @Step("2. Address Search at Royal Mail Post Code Finder")
     private void searchForRetailerAddress(RetailerAddress prmRetailerAddress) {
-
         try {
             //ENTER THE ADDRESS MAIL IN THE POST CODE FINDER TEXT BOX
             //ENTER THE DETAILS AFTER SOME DELAY SO ROYALMAIL CAN PULL THE MATCHING ADDRESS
@@ -86,7 +84,6 @@ public class QASSteps extends CommonSteps {
 
             //ANALYSE THE SUGGESTED ADDRESS IN THE DROPDOWN LIST AND LOOK FOR THE NEARLY MATCHING ADDRESS
             analyseTheSuggestedAddressListInRM(prmRetailerAddress);
-
         } catch (Exception Ex) {
             Ex.printStackTrace();
         }
